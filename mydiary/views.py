@@ -16,13 +16,14 @@ def new(request):
             post.published_date = timezone.now()
             post.save()
             return redirect('home')
-        else:
-            form = ContentForm()
-    return render(request, 'new.html',{'form':form})
+    else:
+        form = ContentForm()
+    return render(request, 'new.html', {'form':form})
 
 def detail(request, index):
     post = get_object_or_404(Content, pk = index)
     return render(request, 'detail.html', {'post':post})
+
 
 def edit(request, index):
     post = get_object_or_404(Content, pk = index)
@@ -33,9 +34,9 @@ def edit(request, index):
             post.author = request.user
             post.published_date = timezone.now
             post.save()
-            return redirect('edit', index=post.pk)
-        else:
-            form = ContentForm(instance=post)
+            return redirect('detail', index=post.pk)
+    else:
+        form = ContentForm(instance=post)
     return render(request, 'edit.html',{'form':form})
 
 def delete(request,pk):
